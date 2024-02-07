@@ -11,12 +11,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,13 +42,16 @@ class MainActivity : ComponentActivity() {
             RandomImageAppTheme {
                 Box(
                     modifier = Modifier
-                        .background(Color.LightGray),
+                        .background(Color.LightGray)
+                        .fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     Column(
                         verticalArrangement = Arrangement.Center
                     ) {
-                        var randomImage = "https://random.imagecdn.app/v1/image?width=500&height=150"
+                        var randomImage = remember { mutableStateOf(
+                            "https://images.unsplash.com/photo-1706954226305-3d6abf829f08?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=150&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTcwNzMxNTUyOQ&ixlib=rb-4.0.3&q=80&w=500"
+                        ).value }
                         AsyncImage(
                             modifier = Modifier
                                 .size(600.dp),
@@ -50,7 +59,9 @@ class MainActivity : ComponentActivity() {
                             contentDescription = null)
                         Button(
                             modifier = Modifier
-                                .background(Color.Red),
+                                .fillMaxWidth()
+                                .height(60.dp),
+                            colors = ButtonDefaults.buttonColors(Color.DarkGray),
                             onClick = {
                                 lifecycleScope.launch {
                                     val response = try {
@@ -63,7 +74,8 @@ class MainActivity : ComponentActivity() {
                                         return@launch
                                     }
                                     if (response.isSuccessful && response.body() != null) {
-                                        randomImage = response.body().toString()
+                                        randomImage = mutableStateOf(response.body()!!.url.toString()).value
+                                        Log.e(TAG, "$randomImage")
                                     } else {
                                         Log.e(TAG, "Response not successful")
                                     }
