@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         var randomImage = remember { mutableStateOf(
-                            "https://images.unsplash.com/photo-1706954226305-3d6abf829f08?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=150&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTcwNzMxNTUyOQ&ixlib=rb-4.0.3&q=80&w=500"
+                            "https://www.hdwallpaper.nu/wp-content/uploads/2015/02/Funny-Cat-Hidden.jpg"
                         ).value }
                         AsyncImage(
                             modifier = Modifier
@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                             onClick = {
                                 lifecycleScope.launch {
                                     val response = try {
-                                        RetrofitInstance.api.getImage()
+                                        RetrofitInstance.api.getImage("LbfeB9Tjkjq70qZgbBZcTQ==b1jISg4jSC5dtfAK")
                                     } catch (e: IOException) {
                                         Log.e(TAG, "IOException, you need to check internet")
                                         return@launch
@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
                                         return@launch
                                     }
                                     if (response.isSuccessful && response.body() != null) {
-                                        randomImage = mutableStateOf(response.body()!!.url.toString()).value
+                                        randomImage = mutableStateOf(response.body()!!.url).value
                                         Log.e(TAG, "$randomImage")
                                     } else {
                                         Log.e(TAG, "Response not successful")
