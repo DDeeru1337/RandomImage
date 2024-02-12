@@ -1,6 +1,5 @@
 package com.example.randomimageapp
 
-import okhttp3.OkHttp
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -16,7 +15,7 @@ object RetrofitInstance {
             .build()
 
         Retrofit.Builder()
-            .baseUrl("https://api-ninjas.com").client(client)
+            .baseUrl("https://api.thecatapi.com").client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ImageApi::class.java)

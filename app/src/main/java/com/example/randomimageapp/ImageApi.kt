@@ -5,6 +5,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ImageApi {
-    @GET("/v1/randomimage")
-    suspend fun getImage(@Query("API key") key: String): Response<RandomImage>
+    @GET("/v1/images/search")
+    suspend fun getImage(): Response<RandomCatImage>
 }

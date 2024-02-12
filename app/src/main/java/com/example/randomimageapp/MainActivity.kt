@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,18 +14,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import coil.compose.AsyncImage
@@ -49,13 +43,13 @@ class MainActivity : ComponentActivity() {
                     Column(
                         verticalArrangement = Arrangement.Center
                     ) {
-                        var randomImage = remember { mutableStateOf(
+                        var randomCatImage = remember { mutableStateOf(
                             "https://www.hdwallpaper.nu/wp-content/uploads/2015/02/Funny-Cat-Hidden.jpg"
                         ).value }
                         AsyncImage(
                             modifier = Modifier
                                 .size(600.dp),
-                            model = randomImage,
+                            model = randomCatImage,
                             contentDescription = null)
                         Button(
                             modifier = Modifier
@@ -65,7 +59,7 @@ class MainActivity : ComponentActivity() {
                             onClick = {
                                 lifecycleScope.launch {
                                     val response = try {
-                                        RetrofitInstance.api.getImage("LbfeB9Tjkjq70qZgbBZcTQ==b1jISg4jSC5dtfAK")
+                                        RetrofitInstance.api.getImage()
                                     } catch (e: IOException) {
                                         Log.e(TAG, "IOException, you need to check internet")
                                         return@launch
@@ -74,8 +68,8 @@ class MainActivity : ComponentActivity() {
                                         return@launch
                                     }
                                     if (response.isSuccessful && response.body() != null) {
-                                        randomImage = mutableStateOf(response.body()!!.url).value
-                                        Log.e(TAG, "$randomImage")
+                                        randomCatImage = mutableStateOf(response.body()!!.url).value
+                                        Log.e(TAG, "randomCatImage")
                                     } else {
                                         Log.e(TAG, "Response not successful")
                                     }
